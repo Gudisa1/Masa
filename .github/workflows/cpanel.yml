@@ -1,38 +1,82 @@
+# name: Deploy React App to cPanel
+
+# on:
+#   push:
+#     branches: [main]
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: "20"
+
+#       - name: Install dependencies and build
+#         run: |
+#           npm install
+#           npm run build
+
+#       - name: Debug build contents
+#         run: ls -la ./dist/
+
+#       - name: Create .htaccess for SPA routing
+#         run: |
+#           cat > ./dist/.htaccess << 'EOL'
+#           Options -MultiViews
+#           RewriteEngine On
+#           RewriteCond %{REQUEST_FILENAME} !-f
+#           RewriteRule ^ index.html [QSA,L]
+#           EOL
+
+#       - name: Deploy to cPanel via FTP
+#         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+#         with:
+#           server: ${{ secrets.Host }}
+#           username: ${{ secrets.CPANEL_FTP_USER }}
+#           password: ${{ secrets.CPANEL_FTP_PASS }}
+#           local-dir: ./dist/
+#           server-dir: /  
+#           dangerous-clean-slate: true
+#           log-level: verbose
+#           port: 21
+#           protocol: ftp
+
 name: Deploy React App to cPanel
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main # Trigger deployment when pushing to the 'main' branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Checkout the code from the GitHub repository
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Set up Node.js (this is needed for building the React app)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: "20" # Use the appropriate Node.js version for your app
 
-      - name: Install dependencies and build
+      # Step 3: Install dependencies and build the React app
+      - name: Install dependencies and build React app
         run: |
           npm install
           npm run build
-
-      - name: Debug build contents
-        run: ls -la ./dist/
-
-      - name: Create .htaccess for SPA routing
+      - name: Verify build directory exists
         run: |
-          cat > ./dist/.htaccess << 'EOL'
-          Options -MultiViews
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteRule ^ index.html [QSA,L]
-          EOL
+          ls -la ./dist         
 
+      # Step 4: Upload files to cPanel via FTP (using cPanel's FTP/SFTP credentials)
       - name: Deploy to cPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -40,8 +84,6 @@ jobs:
           username: ${{ secrets.CPANEL_FTP_USER }}
           password: ${{ secrets.CPANEL_FTP_PASS }}
           local-dir: ./dist/
-          server-dir: /  
-          dangerous-clean-slate: true
-          log-level: verbose
-          port: 21
+          server-dir: /
+          port: 21 
           protocol: ftp
