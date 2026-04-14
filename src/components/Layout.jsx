@@ -17,9 +17,9 @@ export default function Layout() {
     { name: 'Services', path: '/services' },
     { name: 'Projects', path: '/projects' },
     { name: 'About Us', path: '/about' },
-    { name: 'Team', path: '/team' },
-    { name: 'Insights', path: '/insights' },
-    { name: 'Careers', path: '/careers' },
+    // { name: 'Team', path: '/team' },
+    // { name: 'Insights', path: '/insights' },
+    // { name: 'Careers', path: '/careers' },
   ];
 
   return (
@@ -124,7 +124,7 @@ export default function Layout() {
             <ul className="space-y-2 text-sm">
               <li><Link to="/contact" className="hover:text-primary-500 transition-colors">Contact Us</Link></li>
               <li>hello@masatech.com</li>
-              <li>+251 911 234 567</li>
+              <li>+251 968331095</li>
             </ul>
           </div>
         </div>

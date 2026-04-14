@@ -20,8 +20,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path="projects" element={<Projects />} />
             <Route path="about" element={<About />} />
-            <Route path="team" element={<Team />} />
-            <Route path="insights" element={<Insights />} />
+            {/* <Route path="team" element={<Team />} />
+            <Route path="insights" element={<Insights />} /> */}
             <Route path="careers" element={<Careers />} />
             <Route path="contact" element={<Contact />} />
             <Route path="services" element={<Services />} />
