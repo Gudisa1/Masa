@@ -26,7 +26,7 @@ jobs:
 
       - name: Create .htaccess for SPA routing
         run: |
-          cat > ./build/.htaccess << 'EOL'
+          cat > ./dist/.htaccess << 'EOL'
           Options -MultiViews
           RewriteEngine On
           RewriteCond %{REQUEST_FILENAME} !-f
