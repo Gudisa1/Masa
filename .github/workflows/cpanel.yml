@@ -79,7 +79,7 @@ jobs:
           username: ${{ secrets.CPANEL_FTP_USER }}
           password: ${{ secrets.CPANEL_FTP_PASS }}
           local-dir: ./dist/
-          server-dir: public_html/
+          server-dir: /
           port: 21
           protocol: ftp
-          dangerous-clean-slate: true
+          dangerous-clean-slate: false
