@@ -45,38 +45,33 @@
 #           log-level: verbose
 #           port: 21
 #           protocol: ftp
-
 name: Deploy React App to cPanel
 
 on:
   push:
     branches:
-      - main # Trigger deployment when pushing to the 'main' branch
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the code from the GitHub repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js (this is needed for building the React app)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20" # Use the appropriate Node.js version for your app
+          node-version: "20"
 
-      # Step 3: Install dependencies and build the React app
       - name: Install dependencies and build React app
         run: |
           npm install
           npm run build
-      - name: Verify build directory exists
-        run: |
-          ls -la ./dist         
 
-      # Step 4: Upload files to cPanel via FTP (using cPanel's FTP/SFTP credentials)
+      - name: Verify build directory exists
+        run: ls -la ./dist
+
       - name: Deploy to cPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -84,6 +79,7 @@ jobs:
           username: ${{ secrets.CPANEL_FTP_USER }}
           password: ${{ secrets.CPANEL_FTP_PASS }}
           local-dir: ./dist/
-          server-dir: /
-          port: 21 
+          server-dir: public_html/
+          port: 21
           protocol: ftp
+          dangerous-clean-slate: true
